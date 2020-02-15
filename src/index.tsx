@@ -1,54 +1,54 @@
-import * as React from 'react';
-import * as ReactDOM from "react-dom";
+import React from "react";
+import { render } from "react-dom";
+import { GoldenLayoutComponent } from "./lib/goldenLayout/goldenLayoutComponent";
+import { MyGoldenPanel } from "./components/myGoldenPanel";
+import { AppContext } from "./appContext";
 
-// import GoldenLayout from "golden-layout";
-// import LayoutComponent from './layout'
-import App from './app';
-import "./styles.scss";
+class App extends React.Component {
+  state = { contextValue: "default value" };
+  render() {
+    return (
+      <div>
+        <h2>GoldenLayout patched with React Portals:</h2>
+        <div>
+          change context value:<input
+            value={this.state.contextValue}
+            onChange={e => {
+              this.setState({ contextValue: e.target.value });
+            }}
+          />
+        </div>
+        <AppContext.Provider value={this.state.contextValue}>
+          <GoldenLayoutComponent //config from simple react example: https://golden-layout.com/examples/#qZXEyv
+            htmlAttrs={{ style: { height: "500px", width: "500px" } }}
+            config={{
+              content: [
+                {
+                  type: "row",
+                  content: [
+                    {
+                      title: "A react component",
+                      type: "react-component",
+                      component: "testItem",
+                      props: { value: "I'm on the left" }
+                    },
+                    {
+                      title: "Another react component",
+                      type: "react-component",
+                      component: "testItem"
+                    }
+                  ]
+                }
+              ]
+            }}
+            registerComponents={(myLayout: any) => {
+              myLayout.registerComponent("testItem", MyGoldenPanel);
+            }}
+          />
+        </AppContext.Provider>
+      </div>
+    );
+  }
+}
 
-var mountNode = document.getElementById("app");
-ReactDOM.render(<App name="Jane" />, mountNode);
-
-// var myLayout = new GoldenLayout({
-//   content: [
-//     {
-//       type: "row",
-//       content: [
-//         {
-//           type: "react-component",
-//           component: "test-component",
-//           props: { label: "A" }
-//         },
-//         {
-//           type: "column",
-//           content: [
-//             {
-//               type: "react-component",
-//               component: "test-component",
-//               props: { label: "B" }
-//             },
-//             {
-//               type: "react-component",
-//               component: "test-component",
-//               props: { label: "C" }
-//             }
-//           ]
-//         }
-//       ]
-//     }
-//   ]
-// });
-// // //Open the element with 'someId' in a new window
-// // myLayout.root.getItemsById("someId")[0].popout();
-
-// // //Add another component to the layout
-// // myLayout.root.contentItems[0].addChild({
-// //   type: "react-component",
-// //   component: "testComponent",
-// //   props: { label: "X" }
-// // });
-
-// myLayout.registerComponent( 'test-component', LayoutComponent );
-
-// //Once all components are registered, call
-// myLayout.init();
+render(<App />, document.getElementById("app"));
