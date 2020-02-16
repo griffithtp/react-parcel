@@ -3,24 +3,29 @@ import { render } from "react-dom";
 import { GoldenLayoutComponent } from "./lib/goldenLayout/goldenLayoutComponent";
 import { MyGoldenPanel } from "./components/myGoldenPanel";
 import { AppContext } from "./appContext";
+import MainHeader from "./components/mainHeader/mainHeader";
+
+import "./styles.scss";
 
 class App extends React.Component {
   state = { contextValue: "default value" };
   render() {
     return (
-      <div>
-        <h2>GoldenLayout patched with React Portals:</h2>
-        <div>
-          change context value:<input
-            value={this.state.contextValue}
-            onChange={e => {
-              this.setState({ contextValue: e.target.value });
-            }}
-          />
-        </div>
+      <React.Fragment>
+        <MainHeader>
+          <div>
+            change context value:
+            <input
+              value={this.state.contextValue}
+              onChange={e => {
+                this.setState({ contextValue: e.target.value });
+              }}
+            />
+          </div>
+        </MainHeader>
         <AppContext.Provider value={this.state.contextValue}>
           <GoldenLayoutComponent //config from simple react example: https://golden-layout.com/examples/#qZXEyv
-            htmlAttrs={{ style: { height: "500px", width: "500px" } }}
+            htmlAttrs={{ style: { display: "flex", height: "calc(100vh - 2em)", width: "100%" } }}
             config={{
               content: [
                 {
@@ -46,7 +51,7 @@ class App extends React.Component {
             }}
           />
         </AppContext.Provider>
-      </div>
+      </React.Fragment>
     );
   }
 }

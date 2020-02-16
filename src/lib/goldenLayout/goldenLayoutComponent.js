@@ -1,17 +1,18 @@
 // https://codesandbox.io/s/kw4pro8k27
+// https://github.com/golden-layout/golden-layout/issues/392#issuecomment-384731510
 
 import React from "react";
 import ReactDOM from "react-dom";
 import "./goldenLayout-dependencies";
 import GoldenLayout from "golden-layout";
 import "golden-layout/src/css/goldenlayout-base.css";
-import "golden-layout/src/css/goldenlayout-light-theme.css";
+import "golden-layout/src/css/goldenlayout-dark-theme.css";
+import "./goldenLayout.scss";
 import $ from "jquery";
 
 export class GoldenLayoutComponent extends React.Component {
-
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {};
     this.containerRef = React.createRef();
     this.goldenLayoutInstance = undefined;
@@ -58,7 +59,6 @@ export class GoldenLayoutComponent extends React.Component {
     this.goldenLayoutInstance.init();
   }
 }
-
 
 //Patching internal GoldenLayout.__lm.utils.ReactComponentHandler:
 
